@@ -23,8 +23,26 @@ export class MarvelService {
       .set('ts', timestamp)
       .set('orderBy', '-onsaleDate')
       .set('dateRange','2023-01-01,2024-04-05')
+      .set('noVariants','true')
+      .set('formatType','comic')
       .set('hash', hash);
-      
+
+    return this.http.get<Response>(this.baseUrl, { params });
+  }
+
+  getNewsMarvelList(): Observable<Response> {
+    const timestamp = new Date().getTime().toString();
+    const hash = Md5.hashStr(timestamp + this.privateKey + this.apiKey);
+
+    const params = new HttpParams()
+      .set('apikey', this.apiKey)
+      .set('ts', timestamp)
+      .set('orderBy', '-onsaleDate')
+      .set('dateRange','2023-01-01,2024-04-05')
+      .set('noVariants','true')
+      .set('formatType','comic')
+      .set('offset','20')
+      .set('hash', hash);
 
     return this.http.get<Response>(this.baseUrl, { params });
   }

@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
-import { AppComponent } from './app/app.component';
+import { MarvelListComponent } from '../src/app/Components/Layout/app.component';
 
-bootstrapApplication(AppComponent, appConfig)
+bootstrapApplication(MarvelListComponent, appConfig)
   .catch((err) => console.error(err));

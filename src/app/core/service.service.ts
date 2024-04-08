@@ -7,10 +7,13 @@ import { Response, Event } from '../interface/interface';
 @Injectable({
   providedIn: 'root'
 })
+
 export class MarvelService {
   private baseUrl = 'https://gateway.marvel.com/v1/public/comics';
   private apiKey = 'a4632827280b792c0c41dd8cbf0b1134';
+  private limit = 20;
   private privateKey = '7d6d1cb0f1facbd1b881c257a5cc9ce1123b367e';
+  private page = 1 ;  
 
   constructor(private http: HttpClient) { }
 
@@ -33,6 +36,9 @@ export class MarvelService {
   getNewsMarvelList(): Observable<Response> {
     const timestamp = new Date().getTime().toString();
     const hash = Md5.hashStr(timestamp + this.privateKey + this.apiKey);
+    const limit =+ this.limit + 20;
+    this.page ++;
+
 
     const params = new HttpParams()
       .set('apikey', this.apiKey)
@@ -41,9 +47,11 @@ export class MarvelService {
       .set('dateRange','2023-01-01,2024-04-05')
       .set('noVariants','true')
       .set('formatType','comic')
-      .set('offset','20')
+      .set('offset', (this.page) * 20)
+      .set('limit',limit)
       .set('hash', hash);
-
+    console.log(this.http.get<Response>(this.baseUrl, { params }));
     return this.http.get<Response>(this.baseUrl, { params });
+    
   }
 }
